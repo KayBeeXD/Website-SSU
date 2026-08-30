@@ -63,6 +63,8 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -71,6 +73,11 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100vw;
+}
+
+img, svg, video, iframe, canvas {
+  max-width: 100%;
 }
 
 /* Utility Containers */
@@ -1999,4 +2006,370 @@ h1, h2, h3, h4, .font-display {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   COMPREHENSIVE MOBILE & TABLET RESPONSIVE DESIGN SYSTEM
+   ========================================================================== */
+
+/* 1. TABLET BREAKPOINT (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .curtain-body-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  .nav-announcement-badge {
+    display: none;
+  }
+}
+
+/* 2. MOBILE MAIN BREAKPOINT (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Utility Containers */
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Top Utility Bar */
+  .top-utility-bar {
+    padding: 0.35rem 0;
+    font-size: 0.75rem;
+  }
+  .utility-content {
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: center;
+  }
+  .utility-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 0.75rem;
+    font-size: 0.72rem;
+  }
+  .utility-links li:not(:last-child)::after {
+    content: "•";
+    margin-left: 0.5rem;
+    opacity: 0.4;
+  }
+  .utility-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* Main Sticky Navbar & Header */
+  .sticky-navbar {
+    top: 0;
+  }
+  .nav-container {
+    height: 62px;
+    padding: 0 0.75rem;
+  }
+  .brand-logo {
+    gap: 0.5rem;
+  }
+  .brand-crest {
+    width: 36px;
+    height: 36px;
+  }
+  .brand-name {
+    font-size: 1.05rem;
+    line-height: 1.1;
+  }
+  .brand-tagline {
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+  .nav-actions {
+    gap: 0.35rem;
+  }
+  .cmd-k-badge {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.75rem;
+  }
+  .cmd-k-badge kbd {
+    display: none;
+  }
+  .nav-curtain-trigger {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    gap: 0.25rem;
+  }
+  .btn-primary-pill {
+    padding: 0.38rem 0.75rem;
+    font-size: 0.75rem;
+    gap: 0.25rem;
+    white-space: nowrap;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 2.25rem 0 2rem 0;
+    min-height: auto;
+  }
+  .hero-subtitle {
+    font-size: 0.68rem;
+    padding: 0.35rem 0.75rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    display: inline-block;
+    word-break: break-word;
+    margin-bottom: 1rem;
+  }
+  .hero-headline {
+    font-size: clamp(1.8rem, 6.8vw, 2.5rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    word-break: break-word;
+  }
+  .hero-description {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  .hero-visual-frame img {
+    height: 240px;
+  }
+  .hero-visual-overlay {
+    padding: 1.25rem;
+  }
+  .overlay-caption h3 {
+    font-size: 1.05rem;
+  }
+
+  /* Course Finder Bar */
+  .course-finder-bar {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1rem;
+  }
+  .finder-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.6rem;
+  }
+  .finder-tabs {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.4rem;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+  .finder-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .finder-tab {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .finder-inputs {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  #finderSubmitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Statutory Strip */
+  .awards-statutory-strip {
+    padding: 1rem 0;
+  }
+  .awards-flex {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .award-item {
+    font-size: 0.8rem;
+  }
+
+  /* Sections Padding & Headers */
+  .programs-section,
+  .stories-section,
+  .alumni-section {
+    padding: 3.5rem 0;
+  }
+  .section-header {
+    margin-bottom: 2.25rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+  }
+  .section-header p {
+    font-size: 0.95rem;
+  }
+
+  /* Program Explorer Filters & Cards */
+  .programs-filter-tabs {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    margin-bottom: 2rem;
+  }
+  .programs-filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn {
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  .programs-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .program-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Stories & Alumni */
+  .stories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .story-lead-img {
+    height: 220px;
+  }
+  .story-lead-content {
+    padding: 1.25rem;
+  }
+  .story-lead-title {
+    font-size: 1.35rem;
+  }
+  .story-side-card {
+    grid-template-columns: 80px 1fr;
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+  .story-side-img {
+    width: 80px;
+    height: 80px;
+  }
+  .alumni-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .alumni-card {
+    padding: 1.25rem;
+  }
+
+  /* Fullscreen Curtain Menu */
+  .curtain-container {
+    padding: 1.25rem 1rem;
+  }
+  .curtain-header {
+    padding-bottom: 1rem;
+  }
+  .curtain-body-grid {
+    margin: 1.5rem 0;
+    gap: 1.5rem;
+  }
+  .curtain-cat-link {
+    font-size: 1.2rem;
+  }
+  .curtain-sub-card {
+    padding: 1.25rem;
+  }
+  .curtain-sub-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .curtain-quick-links {
+    gap: 0.75rem;
+  }
+
+  /* Modals & Dialogs */
+  .command-modal {
+    padding-top: 5vh;
+  }
+  .command-box,
+  .apply-box,
+  .info-box {
+    width: 94%;
+    max-height: 90vh;
+  }
+  .apply-form-body,
+  .info-modal-body {
+    padding: 1.25rem 1rem;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  /* Footer */
+  .footer-editorial {
+    padding: 3.5rem 0 2rem 0;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+}
+
+/* 3. SMALL MOBILE BREAKPOINT (max-width: 400px) */
+@media (max-width: 400px) {
+  .brand-tagline {
+    display: none;
+  }
+  .brand-name {
+    font-size: 0.95rem;
+  }
+  .nav-container {
+    padding: 0 0.5rem;
+  }
+  .cmd-k-badge span {
+    display: none;
+  }
+  .cmd-k-badge::before {
+    content: "🔍";
+    font-size: 0.85rem;
+  }
+  .btn-primary-pill {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.72rem;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
 
