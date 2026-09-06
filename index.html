@@ -16,7 +16,10 @@
   <meta property="og:image" content="./assets/hero_campus.jpg">
 
   <!-- Fonts & Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=4">
   <style>
     /* Critical Overrides for Light Transparent MOU & Stats Sections */
     section.mou-section,
@@ -90,24 +93,7 @@
 <body>
 
   <!-- ==========================================================================
-       TOP UTILITY BAR
-       ========================================================================== -->
-  <div class="top-utility-bar">
-    <div class="container utility-content">
-      <ul class="utility-links">
-        <li><a href="#about-overview">Established West Bengal Act VI of 2014</a></li>
-        <li><a href="#about-accreditation">UGC Section 2(f) Recognized</a></li>
-        <li><a href="#mou">Global MOUs (Canada, USA, Finland)</a></li>
-      </ul>
-      <div class="utility-right">
-        <a href="tel:+917890502451">📞 Helpline: +91 78905 02451 / 98362 95315</a>
-        <a href="https://erp.seacomskillsuniversity.ac.in/" target="_blank" class="nav-erp-link">ERP Portal ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       GLOBAL MINIMALISTIC GLASS NAVBAR WITH HARVARD CURTAIN TRIGGER
+       GLOBAL MINIMALISTIC TRANSPARENT NAVBAR WITH HARVARD CURTAIN TRIGGER
        ========================================================================== -->
   <header class="sticky-navbar" id="navbar">
     <div class="container nav-container">
@@ -125,15 +111,19 @@
       </a>
 
       <div class="nav-actions">
-        <button class="cmd-k-badge cmd-k-trigger" id="topCmdKBtn" title="Quick Search (Cmd+K)">
-          <span>Search</span> <kbd>⌘K</kbd>
+        <button class="nav-icon-btn cmd-k-trigger" id="topCmdKBtn" title="Quick Search (Cmd+K)" aria-label="Search">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
         </button>
-        <button class="nav-curtain-trigger" id="curtainMenuTrigger" title="Open Menu">
-          <span>Menu</span> <span class="hamburger-icon">☰</span>
+        <button class="nav-icon-btn nav-curtain-trigger" id="curtainMenuTrigger" title="Open Menu" aria-label="Open Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
         </button>
-        <a href="#apply-online" class="btn-primary-pill" id="headerApplyPill">
-          Apply 2026 ➔
-        </a>
       </div>
     </div>
   </header>
@@ -236,6 +226,174 @@
     <section class="stats-ticker-section">
       <div class="container" id="statsContainer">
         <!-- Rendered dynamically by script.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+       STATUTORY AFFILIATIONS, ACCREDITATIONS & PARTNERS SECTION
+       ========================================================================== -->
+    <section class="accreditation-section" id="accreditations">
+      <div class="container">
+        <div class="section-header" style="text-align: center; margin-bottom: 3.5rem;">
+          <span class="gold-badge">STATUTORY APPROVALS & RECOGNITION</span>
+          <h2>Affiliations, Accreditations & Strategic Partners</h2>
+          <p>Established under West Bengal Act VI of 2014 and recognized by premier national statutory bodies, government boards, and skill councils.</p>
+        </div>
+
+        <!-- 1. Affiliations & Accreditations Group -->
+        <div class="accreditation-group">
+          <h3 class="accreditation-group-title">Affiliation and Accreditation</h3>
+          <div class="accreditation-grid">
+            
+            <!-- Card 1: BCI -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#FAF9F6" stroke="#18181B" stroke-width="2"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="3 2"/>
+                  <path d="M50 25 L50 65 M30 35 L70 35 M30 35 L22 52 A 8 8 0 0 0 38 52 Z M70 35 L62 52 A 8 8 0 0 0 78 52 Z M40 65 L60 65" fill="none" stroke="#18181B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="50" cy="25" r="3" fill="#D4AF37"/>
+                  <text x="50" y="82" text-anchor="middle" font-size="6.5" font-weight="800" fill="#18181B" font-family="Manrope">BAR COUNCIL OF INDIA</text>
+                </svg>
+              </div>
+              <h4>Bar Council of India</h4>
+              <p>Statutory Approval for School of Legal Studies & BA LL.B. Degree Programs.</p>
+              <span class="accreditation-badge">BCI APPROVED</span>
+            </div>
+
+            <!-- Card 2: PCI -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#FAF9F6" stroke="#059669" stroke-width="2"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+                  <path d="M35 45 C35 60 65 60 65 45 M50 45 L50 68 M40 68 L60 68" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M50 30 Q35 32 38 40 Q42 48 50 45 Q58 42 62 48" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="50" cy="28" r="3" fill="#059669"/>
+                  <text x="50" y="82" text-anchor="middle" font-size="6.5" font-weight="800" fill="#059669" font-family="Manrope">PHARMACY COUNCIL</text>
+                </svg>
+              </div>
+              <h4>Pharmacy Council of India</h4>
+              <p>Statutory Approval under Pharmacy Act 1948 for B.Pharm & D.Pharm courses.</p>
+              <span class="accreditation-badge">PCI RECOGNIZED</span>
+            </div>
+
+            <!-- Card 3: AICTE -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#FAF9F6" stroke="#D97706" stroke-width="2"/>
+                  <circle cx="50" cy="50" r="28" fill="none" stroke="#D97706" stroke-width="4" stroke-dasharray="6 3"/>
+                  <path d="M42 58 L58 58 L55 46 Q50 42 45 46 Z" fill="none" stroke="#D4AF37" stroke-width="2"/>
+                  <path d="M50 34 C50 34 54 40 50 44 C46 40 50 34 50 34 Z" fill="#D97706"/>
+                  <text x="50" y="82" text-anchor="middle" font-size="8.5" font-weight="800" fill="#D97706" font-family="Manrope">A I C T E</text>
+                </svg>
+              </div>
+              <h4>AICTE</h4>
+              <p>Approved Technical Education Council for Engineering & Polytechnic Programs.</p>
+              <span class="accreditation-badge">AICTE APPROVED</span>
+            </div>
+
+            <!-- Card 4: AISHE -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <rect x="8" y="24" width="84" height="52" rx="8" fill="#0284C7"/>
+                  <rect x="12" y="28" width="76" height="44" rx="6" fill="#0369A1"/>
+                  <text x="50" y="55" text-anchor="middle" font-size="16" font-weight="800" fill="#FFFFFF" font-family="Manrope" letter-spacing="1">AISHE</text>
+                  <text x="50" y="66" text-anchor="middle" font-size="5" font-weight="600" fill="#BAE6FD" font-family="Inter">MINISTRY OF EDUCATION</text>
+                </svg>
+              </div>
+              <h4>AISHE (Code: U-0711)</h4>
+              <p>Listed on All India Survey on Higher Education Portal by Govt. of India.</p>
+              <span class="accreditation-badge">GOVT LISTED</span>
+            </div>
+
+            <!-- Card 5: AIU -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#FAF9F6" stroke="#7C3AED" stroke-width="2"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+                  <path d="M50 25 C45 35 55 45 50 55 C45 45 55 35 50 25 Z" fill="#7C3AED"/>
+                  <path d="M38 35 C35 42 43 50 38 58 C35 50 43 42 38 35 Z" fill="#D4AF37"/>
+                  <path d="M62 35 C59 42 67 50 62 58 C59 50 67 42 62 35 Z" fill="#D4AF37"/>
+                  <text x="50" y="82" text-anchor="middle" font-size="7.5" font-weight="800" fill="#7C3AED" font-family="Manrope">A I U</text>
+                </svg>
+              </div>
+              <h4>Association of Indian Universities</h4>
+              <p>Official Institutional Member for National Degree Equivalence & Mobility.</p>
+              <span class="accreditation-badge">AIU MEMBER</span>
+            </div>
+
+            <!-- Card 6: UGC -->
+            <div class="accreditation-card">
+              <div class="accreditation-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="accreditation-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#FAF9F6" stroke="#DC2626" stroke-width="2"/>
+                  <circle cx="50" cy="42" r="18" fill="none" stroke="#DC2626" stroke-width="2"/>
+                  <path d="M50 24 L50 60 M32 42 L68 42 M37 29 L63 55 M37 55 L63 29" stroke="#D4AF37" stroke-width="1.5"/>
+                  <text x="50" y="74" text-anchor="middle" font-size="10" font-weight="800" fill="#DC2626" font-family="Manrope">UGC</text>
+                  <text x="50" y="83" text-anchor="middle" font-size="5.5" font-weight="700" fill="#18181B" font-family="Inter">SECTION 2(f) RECOGNIZED</text>
+                </svg>
+              </div>
+              <h4>University Grants Commission</h4>
+              <p>Recognized under Section 2(f) of the UGC Act 1956 (Gazette No. 396).</p>
+              <span class="accreditation-badge">UGC 2(f) RECOGNIZED</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. Joint Venture & Skill Partners Row -->
+        <div class="partners-dual-grid">
+          
+          <!-- Joint Venture Partner Card -->
+          <div class="partner-card-box">
+            <h3 class="partner-group-title">Our Joint Venture Partner</h3>
+            <div class="partner-featured-card">
+              <div class="partner-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="partner-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#0284C7" opacity="0.1" stroke="#0284C7" stroke-width="2"/>
+                  <path d="M50 15 L75 30 L75 70 L50 85 L25 70 L25 30 Z" fill="none" stroke="#0284C7" stroke-width="2"/>
+                  <circle cx="50" cy="50" r="18" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-dasharray="4 2"/>
+                  <path d="M50 38 L50 62 M38 50 L62 50" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round"/>
+                  <text x="50" y="93" text-anchor="middle" font-size="7" font-weight="700" fill="#0284C7" font-family="Manrope">BOARD OF PRACTICAL TRAINING</text>
+                </svg>
+              </div>
+              <div class="partner-details">
+                <h4>Board of Practical Training (BOPT - ER)</h4>
+                <p>Ministry of Education, Govt. of India Joint Partner for Practical Apprenticeship & National Vocational Training.</p>
+                <span class="partner-badge">GOVT. OF INDIA PARTNER</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill Partner Card -->
+          <div class="partner-card-box">
+            <h3 class="partner-group-title">Our Skill Partner</h3>
+            <div class="partner-featured-card">
+              <div class="partner-logo-wrapper">
+                <svg viewBox="0 0 100 100" class="partner-logo-svg">
+                  <circle cx="50" cy="50" r="44" fill="#D4AF37" opacity="0.1" stroke="#D4AF37" stroke-width="2"/>
+                  <path d="M30 65 Q 40 30, 50 25 Q 60 30, 70 65" fill="none" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="50" cy="25" r="6" fill="#0284C7"/>
+                  <circle cx="38" cy="45" r="5" fill="#EF4444"/>
+                  <circle cx="62" cy="45" r="5" fill="#10B981"/>
+                  <text x="50" y="82" text-anchor="middle" font-size="9" font-weight="800" fill="#18181B" font-family="Manrope">N S D C</text>
+                  <text x="50" y="92" text-anchor="middle" font-size="6" font-weight="600" fill="#52525B" font-family="Inter">National Skill Development</text>
+                </svg>
+              </div>
+              <div class="partner-details">
+                <h4>National Skill Development Corporation (NSDC)</h4>
+                <p>Strategic Partner for Skill India initiatives, outcome-based industry certifications, and micro-credentials.</p>
+                <span class="partner-badge skill">SKILL INDIA PARTNER</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -401,11 +559,11 @@
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 Seacom Skills University. All Rights Reserved. Designed with Harvard Editorial Standards.</div>
-        <div style="display:flex; gap:1.5rem;">
+        <div>© 2026 Seacom Skills University. Established West Bengal Act VI of 2014. All Rights Reserved.</div>
+        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+          <a href="tel:+917890502451" style="color:var(--gold-primary); text-decoration:none; font-weight:700;">📞 Helpline: +91 78905 02451 / 98362 95315</a>
           <a href="#" style="color:rgba(250,249,246,0.5); text-decoration:none;">Privacy Policy</a>
           <a href="#" style="color:rgba(250,249,246,0.5); text-decoration:none;">Terms of Service</a>
-          <a href="#" style="color:rgba(250,249,246,0.5); text-decoration:none;">Accessibility (WCAG 2.2)</a>
         </div>
       </div>
     </div>
@@ -426,8 +584,10 @@
         <!-- Populated dynamically from src/data/navigation.js by script.js -->
       </div>
 
-      <div class="mobile-cta-box">
-        <a href="#admissions" class="mobile-cta-btn" id="mobileDrawerCta">
+      <div class="mobile-cta-box" style="display:flex; flex-direction:column; gap:0.65rem; align-items:center; text-align:center;">
+        <div style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">Established West Bengal Act VI of 2014</div>
+        <a href="tel:+917890502451" style="font-size:0.85rem; color:var(--gold-dark); text-decoration:none; font-weight:700;">📞 Helpline: +91 78905 02451 / 98362 95315</a>
+        <a href="#admissions" class="mobile-cta-btn" id="mobileDrawerCta" style="width:100%;">
           Apply Now 2026 ➔
         </a>
       </div>
@@ -482,6 +642,14 @@
 
       <!-- Bottom Utility / Quick Links Bar -->
       <div class="curtain-bottom-bar">
+        <div class="curtain-footer-info" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:0.88rem; color:rgba(250,249,246,0.85); font-weight:600;">
+            Established West Bengal Act VI of 2014
+          </div>
+          <a href="tel:+917890502451" style="font-size:0.88rem; color:var(--gold-primary); text-decoration:none; font-weight:700;">
+            📞 Helpline: +91 78905 02451 / 98362 95315
+          </a>
+        </div>
         <div class="curtain-quick-title">QUICK SERVICES & PORTALS</div>
         <div class="curtain-quick-links" id="curtainQuickLinks">
           <!-- Populated dynamically by script.js -->

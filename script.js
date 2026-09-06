@@ -584,6 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStoriesAndAlumni();
   initNewsletterValidation();
   initGlobalLinkRouter();
+  initFadeUpAnimations();
 });
 
 /* ==========================================================================
@@ -1700,4 +1701,75 @@ function initGlobalLinkRouter() {
       targetSection.scrollIntoView({ behavior: 'smooth' });
     }
   });
+}
+
+/* ==========================================================================
+   PREMIUM INTERSECTION OBSERVER FOR FADE-UP CARD ANIMATIONS
+   ========================================================================== */
+function initFadeUpAnimations() {
+  const cardSelectors = [
+    '.mou-card',
+    '.stat-card',
+    '.program-card',
+    '.story-lead-card',
+    '.story-side-card',
+    '.alumni-card',
+    '.accreditation-card',
+    '.partner-featured-card',
+    '.course-finder-bar',
+    '.hero-visual-frame'
+  ].join(',');
+
+  if (!('IntersectionObserver' in window)) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  function observeCards() {
+    const cards = document.querySelectorAll(cardSelectors);
+    cards.forEach((card) => {
+      if (!card.classList.contains('fade-up-card')) {
+        card.classList.add('fade-up-card');
+      }
+
+      // Calculate staggered entrance delay for sibling cards in the same parent container
+      const parent = card.parentElement;
+      if (parent) {
+        const siblings = Array.from(parent.children).filter(el => 
+          el.matches(cardSelectors) || el.classList.contains('fade-up-card')
+        );
+        const index = siblings.indexOf(card);
+        if (index >= 0) {
+          card.style.transitionDelay = `${(index % 6) * 90}ms`;
+        }
+      }
+
+      if (!card.classList.contains('in-view')) {
+        observer.observe(card);
+      }
+    });
+  }
+
+  // Initial observation pass
+  observeCards();
+
+  // Watch for dynamic DOM additions (e.g. program category filtering, search results)
+  const mainTarget = document.getElementById('mainContent') || document.body;
+  const mutationObserver = new MutationObserver(() => {
+    observeCards();
+  });
+
+  mutationObserver.observe(mainTarget, { childList: true, subtree: true });
 }

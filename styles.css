@@ -3,7 +3,7 @@
    Inspired by Harvard University Editorial Grandeur & Official University Data
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* Canvas Backgrounds */
@@ -39,10 +39,10 @@
   --shadow-editorial: 0 12px 40px -4px rgba(24, 24, 27, 0.08);
   --shadow-gold: 0 10px 30px -5px rgba(212, 175, 55, 0.25);
 
-  /* Fonts */
-  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-  --font-serif-alt: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  /* Fonts - Premium & Minimalist */
+  --font-display: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif-alt: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Motion & Layout */
@@ -94,11 +94,12 @@ img, svg, video, iframe, canvas {
   }
 }
 
-h1, h2, h3, h4, .font-display {
+h1, h2, h3, h4, h5, h6, .font-display {
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.15;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
 }
 
 .text-gold-gradient {
@@ -267,22 +268,28 @@ h1, h2, h3, h4, .font-display {
   color: #FFFFFF;
 }
 
-/* Main Sticky Navbar & Glass Effects */
+/* Main Sticky Navbar & Complete Transparent Overlay */
 .sticky-navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(24, 24, 27, 0.08);
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   transition: all 0.35s var(--transition-smooth);
 }
 
 .sticky-navbar.scrolled {
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 10px 30px -5px rgba(24, 24, 27, 0.08);
-  border-bottom-color: var(--border-gold);
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  border-bottom-color: transparent !important;
 }
 
 .nav-container {
@@ -517,7 +524,7 @@ h1, h2, h3, h4, .font-display {
     linear-gradient(180deg, rgba(250, 249, 246, 0.75) 0%, rgba(250, 249, 246, 0.92) 70%, #FAF9F6 100%),
     url('./assets/hero_campus.jpg') center/cover no-repeat;
   overflow: hidden;
-  padding: 5rem 0 3rem 0;
+  padding: 7rem 0 3rem 0;
 }
 
 .hero-grid {
@@ -822,8 +829,220 @@ h1, h2, h3, h4, .font-display {
 }
 
 .stat-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   STATUTORY APPROVALS, ACCREDITATION & PARTNERS SECTION
+   ========================================================================== */
+.accreditation-section {
+  padding: 5.5rem 0;
+  background: var(--bg-canvas);
+  position: relative;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.accreditation-group {
+  margin-bottom: 3.5rem;
+}
+
+.accreditation-group-title, .partner-group-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.accreditation-group-title::after, .partner-group-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2.5px;
+  background: var(--gold-primary);
+  margin-top: 0.5rem;
+  border-radius: 2px;
+}
+
+.accreditation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  gap: 1.5rem;
+}
+
+.accreditation-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.85rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.35s var(--transition-smooth);
+  box-shadow: 0 4px 20px -2px rgba(24, 24, 27, 0.03);
+}
+
+.accreditation-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-dark);
+  box-shadow: 0 14px 35px -5px rgba(212, 175, 55, 0.2);
+  background: #FFFFFF;
+}
+
+.accreditation-logo-wrapper {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.accreditation-card:hover .accreditation-logo-wrapper {
+  transform: scale(1.08);
+}
+
+.accreditation-logo-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.accreditation-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  line-height: 1.25;
+}
+
+.accreditation-card p {
   font-size: 0.82rem;
   color: var(--text-secondary);
+  line-height: 1.48;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.accreditation-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--gold-dark);
+  background: var(--gold-tint);
+  border: 1px solid var(--border-gold);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+/* Dual Grid for Joint Venture & Skill Partners */
+.partners-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 992px) {
+  .partners-dual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.partner-card-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-featured-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 95px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  transition: all 0.35s var(--transition-smooth);
+  box-shadow: 0 6px 25px -4px rgba(24, 24, 27, 0.04);
+}
+
+@media (max-width: 576px) {
+  .partner-featured-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+}
+
+.partner-featured-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-dark);
+  box-shadow: 0 16px 40px -6px rgba(212, 175, 55, 0.2);
+  background: #FFFFFF;
+}
+
+.partner-logo-wrapper {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.partner-featured-card:hover .partner-logo-wrapper {
+  transform: scale(1.06);
+}
+
+.partner-logo-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.partner-details h4 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  line-height: 1.25;
+}
+
+.partner-details p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.85rem;
+}
+
+.partner-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #0284C7;
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.partner-badge.skill {
+  color: var(--gold-dark);
+  background: var(--gold-tint);
+  border-color: var(--border-gold);
 }
 
 /* ==========================================================================
@@ -1579,26 +1798,42 @@ h1, h2, h3, h4, .font-display {
   .nav-announcement-badge { display: none; }
 }
 
+/* Clean & Transparent Icon Buttons for Navbar */
+.nav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+  padding: 0;
+}
+
+.nav-icon-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-dark);
+  transform: scale(1.08);
+}
+
 .nav-curtain-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--text-primary);
-  color: #FAF9F6;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.45rem 1rem;
-  border-radius: var(--radius-sm);
+  justify-content: center;
+  background: transparent;
+  color: var(--text-primary);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .nav-curtain-trigger:hover {
-  background: var(--gold-dark);
-  color: #FFFFFF;
-  transform: translateY(-1px);
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-dark);
 }
 
 .btn-primary-pill {
@@ -2369,6 +2604,30 @@ h1, h2, h3, h4, .font-display {
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+}
+
+/* ==========================================================================
+   PREMIUM SMOOTH FADE-UP CARD ANIMATIONS
+   ========================================================================== */
+.fade-up-card {
+  opacity: 0;
+  transform: translateY(32px) scale(0.985);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fade-up-card.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
