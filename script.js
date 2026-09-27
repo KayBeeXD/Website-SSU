@@ -122,7 +122,7 @@ const siteMetadata = {
   }
 };
 
-const globalCollaborations = [
+let globalCollaborations = [
   {
     id: "mou-1",
     institution: "Carleton University (CICE)",
@@ -160,14 +160,14 @@ const globalCollaborations = [
   }
 ];
 
-const statsData = [
+let statsData = [
   { value: 100, label: "Degree & Skill Courses", suffix: "+", subtitle: "UG, PG, Ph.D. & Micro-credentials" },
   { value: 13, label: "Constituent Schools", suffix: "+", subtitle: "Engineering, Pharmacy, Health, Agriculture" },
   { value: 4000, label: "Active Campus Students", suffix: "+", subtitle: "Across 50-Acre Santiniketan Campus" },
   { value: 50, label: "Awards & Recognitions", suffix: "+", subtitle: "ASSOCHAM, News18 & Zee 24 Ghanta" }
 ];
 
-const academicSchools = [
+let academicSchools = [
   {
     id: "school-eng",
     name: "School of Engineering",
@@ -503,7 +503,7 @@ const academicSchools = [
   }
 ];
 
-const campusStories = [
+let campusStories = [
   {
     id: "story-1",
     category: "RESEARCH & INNOVATION",
@@ -533,7 +533,7 @@ const campusStories = [
   }
 ];
 
-const alumniSpotlights = [
+let alumniSpotlights = [
   {
     id: "alumni-1",
     name: "Priya Sharma",
@@ -569,6 +569,193 @@ const alumniSpotlights = [
   }
 ];
 
+/* ==========================================================================
+   SUPABASE DATABASE INTEGRATION MODULE (READ-ONLY CATALOG & HARDENED WRITES)
+   ========================================================================== */
+const SUPABASE_URL = window.SUPABASE_URL || "https://wnjkquqzddtinaggfouw.supabase.co";
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "sb_publishable_7YbEG4I0ntaWv695Uzzv7w_tN4v-Lxx";
+
+let supabaseClient = null;
+
+if (window.supabase && SUPABASE_URL && !SUPABASE_URL.includes("your-supabase-project")) {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("✅ Supabase Client initialized successfully.");
+  } catch (err) {
+    console.warn("Supabase Client initialization error:", err);
+  }
+} else {
+  console.info("ℹ️ Supabase credentials pending or placeholder detected. Operating with rich local static catalog fallback.");
+}
+
+/**
+ * Dynamically fetches live catalog data from Supabase PostgreSQL tables
+ * and updates local data arrays and UI components.
+ */
+async function fetchSupabaseCatalogData() {
+  if (!supabaseClient) return;
+
+  try {
+    // 1. Fetch University Stats
+    const { data: stats, error: statsErr } = await supabaseClient
+      .from('university_stats')
+      .select('metric_value, metric_label, suffix, subtitle, display_order')
+      .order('display_order', { ascending: true });
+
+    if (statsErr) console.warn("Supabase university_stats error:", statsErr);
+    if (!statsErr && stats && stats.length > 0) {
+      statsData = stats.map(st => ({
+        value: Number(st.metric_value) || 0,
+        label: st.metric_label,
+        suffix: st.suffix || '',
+        subtitle: st.subtitle || ''
+      }));
+      initStatsCounter();
+    }
+
+    // 2. Fetch Global Collaborations (MOUs)
+    const { data: mous, error: mousErr } = await supabaseClient
+      .from('global_collaborations')
+      .select('id, institution, country, focus_description, logo_text, display_order')
+      .order('display_order', { ascending: true });
+
+    if (mousErr) console.warn("Supabase global_collaborations error:", mousErr);
+    if (!mousErr && mous && mous.length > 0) {
+      globalCollaborations = mous.map(m => ({
+        id: m.id,
+        institution: m.institution,
+        country: m.country,
+        focus: m.focus_description,
+        logoText: m.logo_text || m.institution.toUpperCase()
+      }));
+      initGlobalMOUs();
+    }
+
+    // 3. Fetch Campus Stories (Ordered by published_date DESC; campus_stories has no display_order column)
+    const { data: stories, error: storiesErr } = await supabaseClient
+      .from('campus_stories')
+      .select('id, title, category, summary, read_time, published_date, image_url')
+      .order('published_date', { ascending: false });
+
+    if (storiesErr) console.warn("Supabase campus_stories error:", storiesErr);
+    if (!storiesErr && stories && stories.length > 0) {
+      campusStories = stories.map(st => ({
+        id: st.id,
+        title: st.title,
+        category: st.category,
+        summary: st.summary,
+        readTime: st.read_time || '4 min read',
+        date: st.published_date ? new Date(st.published_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent',
+        image: st.image_url
+      }));
+      initStoriesAndAlumni();
+    }
+
+    // 4. Fetch Alumni Spotlights
+    const { data: alumni, error: alumniErr } = await supabaseClient
+      .from('alumni_spotlights')
+      .select('id, full_name, batch_year, degree_title, role_title, company_name, quote, verified_package, avatar_url, display_order')
+      .order('display_order', { ascending: true });
+
+    if (alumniErr) console.warn("Supabase alumni_spotlights error:", alumniErr);
+    if (!alumniErr && alumni && alumni.length > 0) {
+      alumniSpotlights = alumni.map(a => ({
+        id: a.id,
+        name: a.full_name,
+        batchYear: a.batch_year,
+        degree: a.degree_title,
+        role: a.role_title,
+        company: a.company_name,
+        quote: a.quote,
+        package: a.verified_package || 'Verified Placement',
+        avatarUrl: a.avatar_url
+      }));
+      initStoriesAndAlumni();
+    }
+
+    // 5. Fetch Constituent Schools & Academic Programs with Highlights & Curriculum
+    // Note: academic_programs table has no display_order column in Stage 1 schema.
+    const { data: schools, error: schoolsErr } = await supabaseClient
+      .from('constituent_schools')
+      .select(`
+        id,
+        slug,
+        code,
+        name,
+        category,
+        description,
+        degrees_offered,
+        hero_image_url,
+        display_order,
+        academic_programs (
+          id,
+          program_code,
+          title,
+          level,
+          duration,
+          eligibility,
+          annual_tuition_fee,
+          program_highlights ( highlight_text, display_order ),
+          program_curriculum ( semester_label, module_details, display_order )
+        )
+      `)
+      .order('display_order', { ascending: true });
+
+    if (schoolsErr) console.warn("Supabase constituent_schools error:", schoolsErr);
+    if (!schoolsErr && schools && schools.length > 0) {
+      academicSchools = schools.map(s => {
+        const degrees = s.degrees_offered && s.degrees_offered.length > 0 
+          ? s.degrees_offered 
+          : Array.from(new Set((s.academic_programs || []).map(p => p.level))).filter(Boolean);
+
+        return {
+          db_id: s.id,
+          id: s.slug ? `school-${s.slug}` : (s.code ? `school-${s.code.toLowerCase()}` : s.id),
+          name: s.name,
+          code: s.code,
+          category: s.category,
+          description: s.description,
+          degrees: degrees.length > 0 ? degrees : ["B.Tech", "M.Tech", "Diploma"],
+          heroImage: s.hero_image_url,
+          programs: (s.academic_programs || []).map(p => {
+            const sortedHighlights = (p.program_highlights || [])
+              .sort((a,b) => (a.display_order || 0) - (b.display_order || 0))
+              .map(h => h.highlight_text);
+
+            const sortedCurriculum = (p.program_curriculum || [])
+              .sort((a,b) => (a.display_order || 0) - (b.display_order || 0))
+              .map(c => `${c.semester_label}: ${c.module_details}`);
+
+            return {
+              db_id: p.id,
+              id: p.program_code ? p.program_code.toLowerCase() : p.id,
+              title: p.title,
+              duration: p.duration,
+              level: p.level,
+              eligibility: p.eligibility,
+              tuition_fee: p.annual_tuition_fee,
+              highlights: sortedHighlights.length > 0 ? sortedHighlights : ["PCI Approved / AICTE Aligned", "Industry Exposure", "Scholarship Eligible"],
+              curriculum: sortedCurriculum.length > 0 ? sortedCurriculum : [
+                "Sem 1-2: Core Academic Foundation & Practical Labs",
+                "Sem 3-4: Advanced Specialization & Industry Seminars",
+                "Sem 5-6: Professional Electives & Capstone Projects",
+                "Sem 7-8: Internship, Dissertation & Placement Preparation"
+              ]
+            };
+          })
+        };
+      });
+
+      // Re-render UI components with freshly loaded database data
+      initProgramExplorer();
+      initApplyModal();
+      initCommandPalette();
+    }
+  } catch (err) {
+    console.warn("Error fetching Supabase catalog data:", err);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initFullscreenCurtain();
   initNavigation();
@@ -584,7 +771,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initStoriesAndAlumni();
   initNewsletterValidation();
   initGlobalLinkRouter();
+  initExploreCampusVideo();
   initFadeUpAnimations();
+
+  // Trigger Supabase dynamic database fetch
+  fetchSupabaseCatalogData();
 });
 
 /* ==========================================================================
@@ -1423,19 +1614,93 @@ function initApplyModal() {
     feeContent.textContent = `${prog.title}: ${baseFee} (Govt Scholarship Eligible)`;
   }
 
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const fullName = document.getElementById('applyFullName')?.value.trim();
+    const email = document.getElementById('applyEmail')?.value.trim();
+    const phone = document.getElementById('applyPhone')?.value.trim();
+    const selectedSchoolVal = document.getElementById('applySchoolSelect')?.value;
+    const selectedProgVal = document.getElementById('applyProgramSelect')?.value;
+    const stateCountry = document.getElementById('applyState')?.value.trim() || 'West Bengal, India';
+
+    if (!fullName || !email || !phone || !selectedProgVal) {
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.color = '#ff6b6b';
+        feedback.textContent = 'Please fill out all required fields.';
+      }
+      return;
+    }
+
     if (feedback) {
       feedback.style.display = 'block';
-      feedback.style.color = '#00ff9d';
-      feedback.textContent = '✅ Application Submitted Successfully! Our Admission Officer will contact you within 24 hours.';
+      feedback.style.color = '#f0c040';
+      feedback.textContent = 'Submitting your admission application...';
     }
+
+    // Resolve UUIDs for constituent school and academic program
+    let schoolDbId = null;
+    let programDbId = null;
+
+    const matchedSchool = academicSchools.find(s => s.id === selectedSchoolVal || s.db_id === selectedSchoolVal);
+    if (matchedSchool) {
+      schoolDbId = matchedSchool.db_id || null;
+      const matchedProg = matchedSchool.programs.find(p => p.id === selectedProgVal || p.db_id === selectedProgVal);
+      if (matchedProg) {
+        programDbId = matchedProg.db_id || null;
+      }
+    }
+
+    if (supabaseClient) {
+      try {
+        const payload = {
+          full_name: fullName,
+          email: email,
+          phone: phone,
+          school_id: schoolDbId,
+          program_id: programDbId,
+          state_country: stateCountry,
+          status: 'Pending'
+        };
+
+        // Perform pure INSERT without .select() to respect anon RLS PII protection (return=minimal)
+        const { error } = await supabaseClient
+          .from('admission_applications')
+          .insert([payload]);
+
+        if (error) {
+          if (feedback) {
+            feedback.style.color = '#ff6b6b';
+            feedback.textContent = `❌ Submission Error: ${error.message}`;
+          }
+          return;
+        }
+
+        if (feedback) {
+          feedback.style.color = '#00ff9d';
+          feedback.textContent = '✅ Application Submitted Successfully! Our Admission Officer will review your submission and contact you within 24 hours.';
+        }
+      } catch (err) {
+        if (feedback) {
+          feedback.style.color = '#ff6b6b';
+          feedback.textContent = `❌ Submission Error: ${err.message}`;
+        }
+        return;
+      }
+    } else {
+      const demoAppNo = `SSU-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+      if (feedback) {
+        feedback.style.color = '#00ff9d';
+        feedback.textContent = `✅ Application Submitted Successfully! Demo Application No: ${demoAppNo}.`;
+      }
+    }
+
     setTimeout(() => {
       if (form) form.reset();
       if (feeBox) feeBox.style.display = 'none';
       if (feedback) feedback.style.display = 'none';
       closeModal();
-    }, 2500);
+    }, 4500);
   });
 }
 
@@ -1650,23 +1915,70 @@ function initNewsletterValidation() {
   const input = document.getElementById('newsletterEmail');
   const feedback = document.getElementById('newsletterFeedback');
 
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = input?.value.trim();
-    if (email && email.includes('@') && email.includes('.')) {
-      if (feedback) {
-        feedback.style.display = 'block';
-        feedback.style.color = '#00ff9d';
-        feedback.textContent = 'Thank you for subscribing to Seacom Skills University Bulletin!';
-      }
-      if (input) input.value = '';
-    } else {
+
+    if (!email || !email.includes('@') || !email.includes('.')) {
       if (feedback) {
         feedback.style.display = 'block';
         feedback.style.color = '#ff6b6b';
         feedback.textContent = 'Please enter a valid email address.';
       }
+      return;
     }
+
+    if (feedback) {
+      feedback.style.display = 'block';
+      feedback.style.color = '#f0c040';
+      feedback.textContent = 'Subscribing to SSU Bulletin...';
+    }
+
+    if (supabaseClient) {
+      try {
+        // Pure INSERT without .select() to respect anon RLS privacy protection (return=minimal)
+        const { error } = await supabaseClient
+          .from('newsletter_subscribers')
+          .insert([{ email: email }]);
+
+        if (error) {
+          if (error.code === '23505') {
+            if (feedback) {
+              feedback.style.color = '#00ff9d';
+              feedback.textContent = 'You are already subscribed to the Seacom Skills University Bulletin!';
+            }
+          } else {
+            if (feedback) {
+              feedback.style.color = '#ff6b6b';
+              feedback.textContent = `❌ Subscription Error: ${error.message}`;
+            }
+          }
+          return;
+        }
+
+        if (feedback) {
+          feedback.style.color = '#00ff9d';
+          feedback.textContent = 'Thank you for subscribing to Seacom Skills University Bulletin!';
+        }
+        if (input) input.value = '';
+      } catch (err) {
+        if (feedback) {
+          feedback.style.color = '#ff6b6b';
+          feedback.textContent = `❌ Subscription Error: ${err.message}`;
+        }
+        return;
+      }
+    } else {
+      if (feedback) {
+        feedback.style.color = '#00ff9d';
+        feedback.textContent = 'Thank you for subscribing to Seacom Skills University Bulletin!';
+      }
+      if (input) input.value = '';
+    }
+
+    setTimeout(() => {
+      if (feedback) feedback.style.display = 'none';
+    }, 4500);
   });
 }
 
@@ -1703,6 +2015,38 @@ function initGlobalLinkRouter() {
   });
 }
 
+function initExploreCampusVideo() {
+  const video = document.getElementById('campusTourVideo');
+  const btn = document.getElementById('campusVideoPlayBtn');
+
+  if (!video || !btn) return;
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (video.paused) {
+      video.play();
+      btn.innerHTML = `
+        <span class="play-icon-circle">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </span>
+        <span class="play-btn-text">Pause tour</span>
+      `;
+    } else {
+      video.pause();
+      btn.innerHTML = `
+        <span class="play-icon-circle">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </span>
+        <span class="play-btn-text">Take a tour</span>
+      `;
+    }
+  });
+}
+
 /* ==========================================================================
    PREMIUM INTERSECTION OBSERVER FOR FADE-UP CARD ANIMATIONS
    ========================================================================== */
@@ -1717,7 +2061,9 @@ function initFadeUpAnimations() {
     '.accreditation-card',
     '.partner-featured-card',
     '.course-finder-bar',
-    '.hero-visual-frame'
+    '.hero-visual-frame',
+    '.explore-tour-card',
+    '.explore-feature-card'
   ].join(',');
 
   if (!('IntersectionObserver' in window)) return;
